@@ -1,5 +1,10 @@
+#include "Args.h"
+#include <cstring>
+#include <iostream>
+
+
 class ArgHandler
 {
 public:
-	static parseArgs(int argc, char const *argv[]);
-}
+	static Args * parseArgs(int argc, char *argv[]);
+};

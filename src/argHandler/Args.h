@@ -1,40 +1,42 @@
-enum Methods {
-  select,
-  proy,
-  prodCart,
-  union,
-  dif,
-  intersec,
-  join,
-  div,
-  grup
+#include <string>
+
+enum class Methods {
+    select,
+    proy,
+    prodCart,
+    uni,
+    dif,
+    intersec,
+    join,
+    div,
+    grup
 };
-enum FileTipe{
-	bloque,
-	registro
-}
+enum class FileType{
+    bloque,
+    registro
+};
 
 class Args
 {
 private:
-	string inFile;
-	string outFile;
-	Methods methods;
-	string modifiers;
-	FileTipe inFile;
-	FileTipe outFile;
+	std::string inFile;
+	std::string  outFile;
+	Methods method;
+	std::string  modifiers;
+	FileType inType;
+	FileType outType;
 public:
-	string getInFile();
-	string getOutFile();
-	Methods getMethods();
-	string getModifiers();
-	FileTipe getInFile();
-	FileTipe getOutFile();
+	std::string  getInFile();
+	std::string  getOutFile();
+	Methods getMethod();
+	std::string  getModifiers();
+	FileType getInType();
+	FileType getOutType();
 
 	void setInFile(char *);
 	void setOutFile(char *);
-	void setMethods(Methods);
+	void setMethod(Methods);
 	void setModifiers(char *);
-	void setInFile(FileTipe);
-	void setOutFile(FileTipe);
-}
+	void setInType(FileType);
+	void setOutType(FileType);
+};

@@ -1,7 +1,7 @@
-#include <stdio>
+#include <iostream>
 
 int main(int argc, char const *argv[])
 {
-	/* code */
+	std::cout<<"test"<<std::endl;
 	return 0;
 }
