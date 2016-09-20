@@ -1,16 +1,20 @@
 #include "Args.h"
 
 
-void Args::setInFile(char * inFile) {
+void Args::setInFile(const char * inFile) {
     this->inFile = inFile;
 }
 
-void Args::setOutFile(char * outFile) {
+void Args::setOutFile(const char * outFile) {
     this->outFile = outFile;
 }
 
-void Args::setModifiers(char * modifiers) {
+void Args::setModifiers(const char * modifiers) {
     this->modifiers = modifiers;
+}
+
+void Args::setModifiers2(const char * modifiers) {
+    this->modifiers2 = modifiers;
 }
 
 void Args::setInType(FileType inType) {
@@ -48,3 +52,15 @@ FileType Args::getInType() {
 FileType Args::getOutType() {
     return this->outType;
 }
+
+std::string Args::getModifiers2() {
+    return this->modifiers2;
+}
+
+int Args::getBlockSize() {
+    return this->blockSize;
+}
+
+void Args::setBlockSize(const char * blocksize) {
+    this->blockSize=std::stoi(std::string(blocksize),0);
+};

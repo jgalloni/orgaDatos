@@ -3,20 +3,23 @@
 //
 
 #ifndef ORGADATOS_FILEHEADER_H
-
-#include <string>
 #define ORGADATOS_FILEHEADER_H
 
+#include <string>
+#include "../argHandler/Args.h"
 
 class FileHeader {
 private:
-    char tipe[];
-    std::string name[];
-    bool nullable[];
-    int sizeField[];
+    std::string *type;
+    std::string *name;
+    bool *nullable;
+    std::string *sizeField;
     int numField;
+    FileType fileType;
+    int blockSize;
 public:
-    FileHeader(std::string names,std::string types,std::string size;
+    FileHeader(std::string names,std::string types,std::string size,FileType type);
+    FileHeader(Args args);
 };
 
 
