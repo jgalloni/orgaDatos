@@ -10,16 +10,18 @@
 
 class FileHeader {
 private:
-    std::string *type;
-    std::string *name;
-    bool *nullable;
-    std::string *sizeField;
-    int numField;
-    FileType fileType;
-    int blockSize;
+    char *type;//s u
+    std::string *name;//s u
+    bool *nullable; //s u
+    std::string *sizeField;//s
+    int numField; //s u
+    FileType fileType; //s u
+    int blockSize; //s u
 public:
     FileHeader(std::string names,std::string types,std::string size,FileType type);
     FileHeader(Args args);
+    FileHeader(char *);
+    char * Serialize();
 };
 
 

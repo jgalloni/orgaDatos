@@ -13,10 +13,11 @@ enum class Methods {
     intersec,
     join,
     div,
-    grup
+    grup,
+	insert
 };
 enum class FileType{
-    bloque,
+    bloque=0,
     registro
 };
 
