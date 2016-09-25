@@ -20,11 +20,14 @@ BlockFileManager::BlockFileManager(std::string filename){
 
 void BlockFileManager::insert(std::string rawReg) const {
     if(this->fileHeader->getLastId()==0){
+        std::cout<<"Insertando Registro en el primer bloque con id=0"<<std::endl;
         Register registro(rawReg,this->fileHeader);
         this->ofstream->seekp(ofstream->end);
         Block block(&registro,1);
         this->ofstream->write(block.serialize(fileHeader->getBlockSize()),fileHeader->getBlockSize()* sizeof(char)*512);
+        std::cout<<"Registro insertado"<<std::endl;
     } else {
+        std::cout<<"Buscando blocke para insertar"<<std::endl;
         bool cont=true;
         int mapSize=512*this->fileHeader->getBlockSize();
         while(cont){
@@ -41,12 +44,17 @@ void BlockFileManager::insert(std::string rawReg) const {
                     this->ocupationMap->setFullBlock(blockToWrite);
                 }
                 cont = false;
+                std::cout<<"se inserto en el bloque "<<blockToWrite<<std::endl;
+            }else {
+                std::cout<<"bloque "<<blockToWrite<<" lleno"<<std::endl;
             }
         }
     }
     this->fileHeader->incLastId();
     ofstream->seekp(0);
+    std::cout<<"Actualizando header"<<std::endl;
     ofstream->write(this->fileHeader->Serialize(),512);
+    std::cout<<"Actualizando Mapa de ocupacion"<<std::endl;
     ofstream->write(this->ocupationMap->serialize(),512*this->fileHeader->getBlockSize());
 }
 

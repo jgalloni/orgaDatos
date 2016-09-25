@@ -13,4 +13,5 @@ void InsertCommand::execute() const {
     this->fileManager->openFile();
     this->fileManager->insert(this->rawRegister);
     this->fileManager->closeFile();
+    std::cout<<"Archivo cerrado con exito"<<std::endl;
 }

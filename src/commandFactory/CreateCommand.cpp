@@ -18,4 +18,5 @@ CreateCommand::CreateCommand(Args args) {
         this->fileManager= new BlockFileManager(fileHeader,args.getOutFile());
     else if(args.getOutType()==FileType::registro)
         this->fileManager= new RegisterFileManager(fileHeader,args.getOutFile());
+    std::cout<<"Archivo cerrado con exito"<<std::endl;
 }
