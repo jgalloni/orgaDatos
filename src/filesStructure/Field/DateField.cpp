@@ -5,12 +5,12 @@
 #include <cstdlib>
 #include "DateField.h"
 
-DateField::DateField(std::string value, std::string type) {
+DateField::DateField(std::string value, char type) {
     this->type=type;
     this->anio=value.substr(0,4).c_str();
     this->mes=value.substr(4,2).c_str();
     this->dia=value.substr(6,2).c_str();
-    if(!type.compare("t")){
+    if(type == 't'){
         this->horas=value.substr(9,2).c_str();
         this->minutos=value.substr(11,2).c_str();
         this->segundos=value.substr(13,2).c_str();
@@ -19,7 +19,7 @@ DateField::DateField(std::string value, std::string type) {
 
 char * DateField::serialize(int * size) const {
     char * data;
-    if(!type.compare("t")){
+    if(type == 't'){
         data = (char *) malloc(sizeof(char) * 15);
         char * out=data;
         memcpy(data,anio,4);

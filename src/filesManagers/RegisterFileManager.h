@@ -9,6 +9,11 @@
 
 class RegisterFileManager : public FileManager{
 
+public:
+    RegisterFileManager(FileHeader *fileHeader, std::string fileName);
+    RegisterFileManager(std::string filename);
+    void insert(std::string reg) const;
+    void openFile();
 };
 
 

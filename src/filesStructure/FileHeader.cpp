@@ -34,16 +34,17 @@ FileHeader::FileHeader(std::string names,std::string types,std::string sizes,Fil
 }
 
 FileHeader::FileHeader(Args args) {
+    this->lastId=0;
     this->numField=0;
     this->fileType=args.getOutType();
+    this->blockSize=args.getBlockSize();
+
 
     //cargo los nombres de los registros
     std::stringstream ss(args.getModifiers());
     std::stringstream ss2(args.getModifiers2());
     std::string reg;
     std::vector<std::string> nlist;
-    std::vector< char> tlist;
-    std::vector<std::string> slist;
     while(std::getline(ss,reg,',')){
         nlist.push_back(reg);
         //la cantidad
@@ -51,17 +52,20 @@ FileHeader::FileHeader(Args args) {
     }
     this->name=nlist.data();
 
+    this->type= (char *) malloc(sizeof(char) * this->numField);
+    this->sizeField= (char *) malloc(sizeof(char) * this->numField);
+    int j=0;
     while(std::getline(ss2,reg,',')){
-        tlist.push_back(reg.substr(0,1).c_str()[0]);
-        slist.push_back(reg.substr(1));
+        this->type[j]=reg.substr(0,1).c_str()[0];
+        this->sizeField[j]=reg.substr(1).c_str()[0];
+        j++;
     }
-    this->type=tlist.data();
-    this->sizeField=slist.data();
     std::cout<<"Registros:"<<std::endl;
     std::cout<<"Nombre,tipo,tamaño:"<<std::endl;
     for(int i=0;i<numField;i++){
         std::cout<<this->name[i]<<","<<this->type[i]<<","<<this->sizeField[i]<<std::endl;
     }
+
 }
 
 char* FileHeader::Serialize() {
@@ -78,18 +82,16 @@ char* FileHeader::Serialize() {
     }
     memcpy(serial, &(this->numField), sizeof(int));
     serial+=sizeof(int);
-   // memcpy(serial, this->nullable, sizeof(bool)*this->numField);
-  //  serial+=sizeof(bool)*numField;
     for(int i=0;i<this->numField;i++){
         memcpy(serial,this->name[i].c_str(), sizeof(char)*this->name[i].length()+1);
         serial+=sizeof(char)*this->name[i].length()+1;
     }
     memcpy(serial,this->type, sizeof(char)*numField);
     serial+=sizeof(char)*numField;
-    for(int i=0;i<this->numField;i++){
-        memcpy(serial,this->sizeField[i].c_str(), sizeof(char)*this->sizeField[i].length()+1);
-        serial+=sizeof(char)*this->sizeField[i].length()+1;
-    }
+    memcpy(serial,this->sizeField, sizeof(char)*numField);
+    serial+=sizeof(char)*numField;
+    memcpy(serial,&(this->lastId), sizeof(int));
+    serial+=sizeof(int);
     int diff= 512-(serial-out);
     for(int i =0;i< diff;i++){
         serial[i]=0;
@@ -123,14 +125,53 @@ FileHeader::FileHeader(char * buff) {
     for(int i=0;i<this->numField;i++,buff++){
         this->type[i]=*buff;
     }
-    std::vector<std::string> vec2;
-    for(int i=0;i<this->numField;i++){
-        int x=0;
-        for(;*buff!='\0';buff++,x++){
-            temp[x]=*buff;
-        }
-        buff++;
-        vec2.push_back(std::string(temp,x));
+    this->sizeField = (char *)malloc(numField);
+    for(int i=0;i<this->numField;i++,buff++){
+        this->sizeField[i]=*buff;
     }
-    this->sizeField= vec2.data();
+    memcpy(&(this->lastId),buff, sizeof(int));
+}
+
+FileType FileHeader::getFileType() {
+    return this->fileType;
+}
+
+int FileHeader::getBlockSize() {
+    return this->blockSize;
+}
+
+int FileHeader::getLastId() {
+    return this->lastId;
+}
+
+int FileHeader::getNumField() {
+    return this->numField;
+}
+
+char *FileHeader::getType()  {
+    return type;
+}
+
+void FileHeader::setType(char *type) {
+    FileHeader::type = type;
+}
+
+std::string *FileHeader::getName()  {
+    return name;
+}
+
+void FileHeader::setName(std::string *name) {
+    FileHeader::name = name;
+}
+
+char *FileHeader::getSizeField()  {
+    return sizeField;
+}
+
+void FileHeader::setSizeField(char *sizeField) {
+    FileHeader::sizeField = sizeField;
+}
+
+void FileHeader::incLastId() {
+    this->lastId++;
 }

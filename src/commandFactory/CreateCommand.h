@@ -9,11 +9,9 @@
 #include "Command.h"
 #include "../argHandler/Args.h"
 #include "../filesStructure/FileHeader.h"
+#include "../filesManagers/FileManager.h"
 
 class CreateCommand : public virtual Command {
-private:
-    FileHeader * fileHeader;
-    std::string  fileName;
 
 public:
     CreateCommand(Args args);

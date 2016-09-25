@@ -7,10 +7,10 @@
 #include "StringField.h"
 #include "DateField.h"
 
-Field *FieldFactory::createField(char type, std::string sizeField, std::string fieldValue) {
+Field *FieldFactory::createField(char type, char sizeField, std::string fieldValue) {
     switch (type){
         case 'i':
-            return new IntField(fieldValue,std::stoi(sizeField));
+            return new IntField(fieldValue,sizeField-48);
         case 's':
             return new StringField(fieldValue,sizeField);
         case 'd':

@@ -52,7 +52,7 @@ Args * ArgHandler::createArgFiller(int argc,const char *argv[]){
 
 Args * ArgHandler::insertArgFiller(int argc,const char *argv[]){
 	Args * args= new Args();
-	if(argc!=3){
+	if(argc!=4){
 		std::cout<<"Cantidad de parametros para insertar archivo incorrecta, consulte el manual de la app"<<std::endl;
 		throw std::exception();
 	}

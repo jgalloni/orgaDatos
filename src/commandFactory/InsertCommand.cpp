@@ -5,9 +5,12 @@
 #include "InsertCommand.h"
 
 InsertCommand::InsertCommand(Args args) {
-    this->fileHandler= new FileHandler(args.getOutFile());
     this->rawRegister = args.getModifiers();
+    this->fileManager = FileManager::getFileManager(args.getOutFile());
 }
 
 void InsertCommand::execute() const {
+    this->fileManager->openFile();
+    this->fileManager->insert(this->rawRegister);
+    this->fileManager->closeFile();
 }

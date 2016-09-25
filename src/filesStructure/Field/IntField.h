@@ -18,6 +18,10 @@ private:
     int size;
 public:
     IntField(std::string value, int size);
+    IntField(char value, int size);
+    IntField(short value, int size);
+    IntField(int value, int size);
+    IntField(long value, int size);
     char * serialize(int * size) const;
 };
 

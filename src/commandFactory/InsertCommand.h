@@ -8,14 +8,11 @@
 #include "Command.h"
 #include "../argHandler/Args.h"
 #include "../filesStructure/FileHeader.h"
-#include "../filesManagers/FileHandler.h"
 #include "../filesStructure/Register.h"
 
 class InsertCommand : public virtual Command {
 
 private:
-    FileHandler * fileHandler;
-    Register * regist;
     std::string rawRegister;
 
 public:

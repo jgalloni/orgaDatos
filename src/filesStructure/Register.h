@@ -8,14 +8,19 @@
 
 #include <string>
 #include "Field/Field.h"
+#include "FileHeader.h"
 
 class Register {
 private:
     Field ** fields ;
     int fieldsNumber;
+    int id;
 public:
-    Register(std::string * fields,char * type,std::string *sizeField,int numFields);
+    Register(std::string * fields,char * type,char *sizeField,int numFields);
     char * serialize(int *size);
+
+    Register(std::string rawReg, FileHeader *fHeader);
+    Register(Field **, int size,int id);
 };
 
 

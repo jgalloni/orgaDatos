@@ -13,10 +13,10 @@ class DateField : public Field {
 
 private:
     const char *dia,*mes,*anio,*horas,*minutos,*segundos;
-    std::string type;
+    char type;
 
 public:
-    DateField(std::string value, std::string type);
+    DateField(std::string value, char type);
     char * serialize(int * size) const;
 };
 

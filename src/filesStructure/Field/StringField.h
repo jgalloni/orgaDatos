@@ -15,7 +15,7 @@ private:
     std::string type;
 
 public:
-    StringField(std::string value, std::string type);
+    StringField(std::string value, char type);
     char * serialize(int * size) const;
 };
 

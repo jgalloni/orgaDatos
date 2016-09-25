@@ -11,7 +11,7 @@
 
 class FieldFactory {
 public:
-    static Field * createField(char type, std::string sizeField,std::string fieldsValue);
+    static Field * createField(char type, char sizeField,std::string fieldsValue);
 };
 
 
