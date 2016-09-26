@@ -43,6 +43,8 @@ public:
     int getNumField();
 
     void incLastId();
+
+    int getFielPossition(std::string fieldName);
 };
 
 

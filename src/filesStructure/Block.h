@@ -19,6 +19,14 @@ public:
     char *serialize(int size);
 
     int getSerializedSize();
+
+    bool find(std::string rawReg);
+
+    void remove(int id);
+
+    void add(Register aRegister);
+
+    std::vector<Register> find(int field, std::string condition, std::string value);
 };
 
 

@@ -57,4 +57,9 @@ void OcupationMap::setFullBlock(int i) {
 
 }
 
+void OcupationMap::setNotFull(int blockNro) {
+    this->map[blockNro]= false;
+
+}
+
 

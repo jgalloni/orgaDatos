@@ -3,6 +3,7 @@
 //
 
 #include <cstdlib>
+#include <sstream>
 #include "DateField.h"
 
 DateField::DateField(std::string value, char type) {
@@ -51,4 +52,158 @@ char * DateField::serialize(int * size) const {
         *size= 8;
         return out;
     }
+}
+
+bool DateField::cmp(std::string value) const {
+    if(value.substr(0,4)!=this->anio){
+        return false;
+    }
+    if(value.substr(4,2)!=this->mes){
+        return false;
+    }
+    if(value.substr(6,2)!=this->dia){
+        return false;
+    }
+    if(this->type=='t'){
+        return true;
+    }
+    if(value.substr(9,2)!=this->horas){
+        return false;
+    }
+    if(value.substr(11,2)!=this->minutos){
+        return false;
+    }
+    if(value.substr(13,2)!=this->segundos){
+        return false;
+    }
+    return true;
+}
+
+
+bool DateField::test(std::string condition, std::string value) const {
+    if(condition=="igual")
+        return this->cmp(value);
+    if(condition=="distinto")
+        return !this-cmp(value);
+    if(condition=="mayor")
+        return this->grt(value);
+    if(condition=="menor")
+        return this->lower(value);
+    if(condition=="mayorOIgual")
+        return this->grtOrEqu(value);
+    if(condition=="menorOIgual")
+        return this->loweOrEqu(value);
+}
+
+bool DateField::grt(const std::string value) const{
+    if (value.substr(0, 4) < this->anio) {
+        return true;
+    } else if (value.substr(0, 4) == this->anio) {
+        if (value.substr(4, 2) < this->mes) {
+            return true;
+        } else if (value.substr(4, 2) == this->mes) {
+            if (value.substr(6, 2) < this->dia) {
+                return true;
+            } else if (value.substr(6, 2) == this->dia && this->type == 't') {
+                if (value.substr(9, 2) < this->horas) {
+                    return true;
+                } else if (value.substr(9, 2) == this->horas) {
+                    if (value.substr(11, 2) < this->minutos) {
+                        return true;
+                    } else if (value.substr(11, 2) == this->minutos) {
+                        if (value.substr(13, 2) < this->segundos) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+
+bool DateField::lower(const std::string value) const{
+    if (value.substr(0, 4) > this->anio) {
+        return true;
+    } else if (value.substr(0, 4) == this->anio) {
+        if (value.substr(4, 2) > this->mes) {
+            return true;
+        } else if (value.substr(4, 2) == this->mes) {
+            if (value.substr(6, 2) > this->dia) {
+                return true;
+            } else if (value.substr(6, 2) == this->dia && this->type == 't') {
+                if (value.substr(9, 2) > this->horas) {
+                    return true;
+                } else if (value.substr(9, 2) == this->horas) {
+                    if (value.substr(11, 2) > this->minutos) {
+                        return true;
+                    } else if (value.substr(11, 2) == this->minutos) {
+                        if (value.substr(13, 2) > this->segundos) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+bool DateField::grtOrEqu(const std::string value) const{
+    if (value.substr(0, 4) < this->anio) {
+        return true;
+    } else if (value.substr(0, 4) == this->anio) {
+        if (value.substr(4, 2) < this->mes) {
+            return true;
+        } else if (value.substr(4, 2) == this->mes) {
+            if (value.substr(6, 2) < this->dia) {
+                return true;
+            } else if (value.substr(6, 2) == this->dia && this->type == 't') {
+                if (value.substr(9, 2) < this->horas) {
+                    return true;
+                } else if (value.substr(9, 2) == this->horas) {
+                    if (value.substr(11, 2) < this->minutos) {
+                        return true;
+                    } else if (value.substr(11, 2) == this->minutos) {
+                        if (value.substr(13, 2) <= this->segundos) {
+                            return true;
+                        }
+                    }
+                }
+            } else if (value.substr(6, 2) == this->dia && this->type != 't') {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool DateField::loweOrEqu(const std::string value) const{
+    if (value.substr(0, 4) > this->anio) {
+        return true;
+    } else if (value.substr(0, 4) == this->anio) {
+        if (value.substr(4, 2) > this->mes) {
+            return true;
+        } else if (value.substr(4, 2) == this->mes) {
+            if (value.substr(6, 2) > this->dia) {
+                return true;
+            } else if (value.substr(6, 2) == this->dia && this->type == 't') {
+                if (value.substr(9, 2) > this->horas) {
+                    return true;
+                } else if (value.substr(9, 2) == this->horas) {
+                    if (value.substr(11, 2) > this->minutos) {
+                        return true;
+                    } else if (value.substr(11, 2) == this->minutos) {
+                        if (value.substr(13, 2) >= this->segundos) {
+                            return true;
+                        }
+                    }
+                }
+            } else if (value.substr(6, 2) == this->dia && this->type != 't') {
+                return true;
+            }
+        }
+    }
+    return false;
 }

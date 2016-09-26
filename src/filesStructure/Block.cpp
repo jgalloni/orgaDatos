@@ -130,3 +130,33 @@ Block::Block(char *sReg, FileHeader fh) {
 int Block::getSerializedSize() {
     return this->ocupation;
 }
+
+bool Block::find(std::string rawReg) {
+    return false;
+}
+
+void Block::remove(int id) {
+
+}
+
+void Block::add(Register aRegister) {
+    Register * tmp= (Register *) malloc(sizeof(Register)*this->regsNum + 1);
+    for (int i = 0; i < this->regsNum; ++i) {
+        tmp[i]=regs[i];
+    }
+    tmp[this->regsNum]=aRegister;
+    free(this->regs);
+    this->regs=tmp;
+    this->regsNum++;
+}
+
+
+std::vector<Register> Block::find(int field, std::string condition, std::string value) {
+    std::vector<Register> ret;
+    for (int i = 0; i < this->regsNum; ++i) {
+       if(this->regs[i].test(field,condition,value)){
+           ret.push_back(this->regs[i]);
+       }
+    }
+    return ret;
+}

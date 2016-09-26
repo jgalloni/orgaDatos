@@ -11,6 +11,8 @@ Args * ArgHandler::parseArgs(int argc,const char *argv[]){
 		return ArgHandler::createArgFiller(argc,argv);
 	}else if(!command.compare("insertar")){
 		return ArgHandler::insertArgFiller(argc,argv);
+	} else if(!command.compare("borrar")){
+		return ArgHandler::deleteArgFiller(argc,argv);
 	}
 
 }
@@ -62,5 +64,20 @@ Args * ArgHandler::insertArgFiller(int argc,const char *argv[]){
 	std::cout<<"Nombre archivo: "<<args->getOutFile()<<std::endl;
 	args->setModifiers(argv[3]);
 	std::cout<<"Registro a insertar de los registros: "<<args->getModifiers()<<std::endl;
+	return args;
+}
+
+Args *ArgHandler::deleteArgFiller(int argc, const char **argv) {
+	Args * args= new Args();
+	if(argc!=4){
+		std::cout<<"Cantidad de parametros para insertar archivo incorrecta, consulte el manual de la app"<<std::endl;
+		throw std::exception();
+	}
+	args->setMethod(Methods::deleteReg);
+	std::cout<<"Metodo: borrar registro"<<std::endl;
+	args->setOutFile(argv[2]);
+	std::cout<<"Nombre archivo: "<<args->getOutFile()<<std::endl;
+	args->setModifiers(argv[3]);
+	std::cout<<"Registro a borrar de los registros: "<<args->getModifiers()<<std::endl;
 	return args;
 }

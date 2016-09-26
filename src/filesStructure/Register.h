@@ -21,6 +21,10 @@ public:
 
     Register(std::string rawReg, FileHeader *fHeader);
     Register(Field **, int size,int id);
+
+    bool cmp(std::string rawReg);
+
+    bool test(int fieldNum,std::string condition, std::string value);
 };
 
 

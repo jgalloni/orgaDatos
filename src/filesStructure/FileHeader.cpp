@@ -175,3 +175,11 @@ void FileHeader::setSizeField(char *sizeField) {
 void FileHeader::incLastId() {
     this->lastId++;
 }
+
+int FileHeader::getFielPossition(std::string fieldName) {
+    for (int i = 0; i < this->numField; ++i) {
+        if(!this->name->compare(fieldName)){
+            return i;
+        }
+    }
+}

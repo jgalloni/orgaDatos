@@ -26,3 +26,31 @@ char *StringField::serialize(int * size) const {
         return out;
     }
 }
+
+bool StringField::cmp(std::string value) const {
+    return this->value==value;
+}
+
+bool StringField::test(std::string condition, std::string value) const {
+    if(condition=="igual")
+        return this->cmp(value);
+    if(condition=="distinto")
+        return !(this-cmp(value));
+    return false;
+}
+
+bool StringField::grt(std::string) const {
+    return true;
+}
+
+bool StringField::lower(std::string) const {
+    return true;
+}
+
+bool StringField::grtOrEqu(std::string) const {
+    return true;
+}
+
+bool StringField::loweOrEqu(std::string) const {
+    return true;
+}

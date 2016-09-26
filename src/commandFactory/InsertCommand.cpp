@@ -2,6 +2,7 @@
 // Created by Jorge Galloni on 9/21/16.
 //
 
+#include <iostream>
 #include "InsertCommand.h"
 
 InsertCommand::InsertCommand(Args args) {

@@ -19,6 +19,8 @@ public:
     char *serialize();
 
     void setFullBlock(int i);
+
+    void setNotFull(int blockNro);
 };
 
 

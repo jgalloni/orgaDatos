@@ -14,7 +14,8 @@ enum class Methods {
     join,
     div,
     grup,
-	insert
+	insert,
+	deleteReg
 };
 enum class FileType{
     bloque=0,

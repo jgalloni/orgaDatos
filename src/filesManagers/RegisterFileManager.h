@@ -14,6 +14,14 @@ public:
     RegisterFileManager(std::string filename);
     void insert(std::string reg) const;
     void openFile();
+
+    void writeReg(int size, char *reg) const;
+
+    void deleteReg(std::string rawReg) const;
+    virtual FileType getType() const;
+    std::vector<Register> find(std::string field,std::string condition, std::string value) const;
+    void insert(std::vector<Register> reg) const;
+    void insert(Register reg) const;
 };
 
 

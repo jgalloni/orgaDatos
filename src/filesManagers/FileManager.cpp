@@ -23,8 +23,8 @@ void FileManager::createFile(){
         OcupationMap oc(512*this->fileHeader->getBlockSize());
         out.write(oc.serialize(),512*this->fileHeader->getBlockSize()*sizeof(char));
     } else{
-        OcupationMap oc(512);
-        out.write(oc.serialize(),512);
+        FreeRegOffset fro;
+        out.write(fro.serialize(),512);
     }
     out.close();
     std::cout<<"Archivo creado"<<std::endl;
@@ -69,4 +69,5 @@ void FileManager::closeFile() {
     this->ifstream->close();
     this->ofstream->close();
 }
+
 

@@ -56,3 +56,23 @@ Register::Register(Field ** f, int size, int id) {
     this->id=id;
 
 }
+
+bool Register::cmp(std::string rawReg) {
+    std::string val;
+    std::stringstream ss(rawReg);
+    std::vector<std::string> list;
+    while(std::getline(ss,val,',')){
+        list.push_back(val);
+    }
+    for (int i = 0; i < this->fieldsNumber; ++i) {
+        if(!this->fields[i]->cmp(list.at(i))){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Register::test(int fieldNum,std::string condition, std::string value) {
+    return this->fields[fieldNum]->test(condition,value);
+}
+

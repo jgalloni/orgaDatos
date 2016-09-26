@@ -23,6 +23,12 @@ public:
     IntField(int value, int size);
     IntField(long value, int size);
     char * serialize(int * size) const;
+    bool cmp(std::string value) const;
+    bool test(std::string condition,std::string value) const;
+    bool grt(std::string) const;
+    bool lower (std::string) const;
+    bool grtOrEqu(std::string) const;
+    bool loweOrEqu(std::string) const;
 };
 
 

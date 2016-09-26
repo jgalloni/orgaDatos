@@ -18,6 +18,12 @@ private:
 public:
     DateField(std::string value, char type);
     char * serialize(int * size) const;
+    bool cmp(std::string value) const;
+    bool test(std::string condition,std::string value) const;
+    bool grt(std::string) const;
+    bool lower (std::string) const;
+    bool grtOrEqu(std::string) const;
+    bool loweOrEqu(std::string) const;
 };
 
 
