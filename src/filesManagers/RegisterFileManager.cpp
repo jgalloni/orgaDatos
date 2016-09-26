@@ -36,6 +36,7 @@ void RegisterFileManager::writeReg(int size, char* reg) const {
     this->ofstream->write(reinterpret_cast<char*>(&size), sizeof(int));
     this->ofstream->write(reg,size * sizeof(char));
     this->fileHeader->incLastId();
+    this->ofstream->clear();
     this->ofstream->seekp(0);
     this->ofstream->write(this->fileHeader->Serialize(),512* sizeof(char));
 
@@ -112,6 +113,7 @@ void RegisterFileManager::insert(Register registro) const {
     int size=0;
     char * tmp = registro.serialize(&size);
     if(this->fileHeader->getLastId()==0){
+        this->ofstream->clear();
         this->ofstream->seekp(0, std::ios::end);
         this->writeReg(size, tmp);
         this->freeRegOffset->updateOcupedOffset(0,size);
@@ -119,8 +121,10 @@ void RegisterFileManager::insert(Register registro) const {
         return;
     } else {
         int seekOff=this->freeRegOffset->nextFreeReg();
+        this->ofstream->clear();
         this->ofstream->seekp(seekOff+1024);
         while (!this->ofstream->eof()){
+            this->ifstream->clear();
             this->ifstream->seekg(seekOff+1024);
             int sfree;
             this->ifstream->read((char *) &sfree, sizeof(int));
@@ -129,9 +133,12 @@ void RegisterFileManager::insert(Register registro) const {
             }else{
                 this->writeReg(size, tmp);
                 this->freeRegOffset->deleteOcupedOffset(seekOff);
+                this->ofstream->clear();
+                this->ofstream->seekp(512);
                 this->ofstream->write(this->freeRegOffset->serialize(),512* sizeof(char));
                 return;
             }
+            this->ofstream->clear();
             this->ofstream->seekp(seekOff+1024);
         }
         this->writeReg(size, tmp);
