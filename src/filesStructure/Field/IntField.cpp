@@ -3,6 +3,7 @@
 //
 
 #include <cstdlib>
+#include <cstring>
 #include "IntField.h"
 
 IntField::IntField(std::string value, int size) {

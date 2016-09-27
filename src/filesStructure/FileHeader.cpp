@@ -5,6 +5,7 @@
 #include <sstream>
 #include <vector>
 #include <iostream>
+#include <cstring>
 #include "FileHeader.h"
 
 FileHeader::FileHeader(std::string names,std::string types,std::string sizes,FileType type) {
@@ -50,7 +51,10 @@ FileHeader::FileHeader(Args args) {
         //la cantidad
         this->numField++;
     }
-    this->name=nlist.data();
+    this->name= (std::string *) malloc(sizeof(std::string) * 2);
+    for (int k = 0; k < this->numField; ++k) {
+        this->name[k]=nlist[k];
+    }
 
     this->type= (char *) malloc(sizeof(char) * this->numField);
     this->sizeField= (char *) malloc(sizeof(char) * this->numField);
@@ -120,7 +124,10 @@ FileHeader::FileHeader(char * buff) {
         buff++;
         vec.push_back(std::string(temp,x));
     }
-    this->name=vec.data();
+    this->name= (std::string *) malloc(sizeof(std::string) * 2);
+    for (int k = 0; k < this->numField; ++k) {
+        this->name[k]=vec[k];
+    }
     this->type = (char *)malloc(numField);
     for(int i=0;i<this->numField;i++,buff++){
         this->type[i]=*buff;

@@ -4,6 +4,7 @@
 
 #include <cstdlib>
 #include <sstream>
+#include <cstring>
 #include "DateField.h"
 
 DateField::DateField(std::string value, char type) {

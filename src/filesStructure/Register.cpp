@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <vector>
+#include <cstring>
 #include "Register.h"
 #include "Field/FieldFactory.h"
 
