@@ -40,7 +40,7 @@ void FreeRegOffset::setOcupedOffset(int offset) {
     int *tmp = (int *) malloc((size + 1) * sizeof(int));
     memcpy(tmp, freeRegs, size);
     this->freeRegs = tmp;
-    this->freeRegs[size + 1] = offset;
+    this->freeRegs[size] = offset;
     this->size++;
 }
 

@@ -3,6 +3,7 @@
 //
 
 #include <cstdlib>
+#include <cstring>
 #include "StringField.h"
 
 StringField::StringField(std::string value, char type) {

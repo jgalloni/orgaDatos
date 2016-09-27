@@ -32,18 +32,8 @@ void FileManager::createFile(){
 
 void FileManager::openFile() {
     std::cout<<"abriendo archivo:"<<this->fileName<<std::endl;
-    this->ifstream= new std::ifstream(this->fileName,std::ios::binary);
-    this->ofstream= new std::ofstream(this->fileName,std::ios::binary|std::ios::out);
-    if(!ifstream->is_open()){
-        std::cout<<"Error al abrir el archivo: "<<this->fileName<<std::endl;
-        ofstream->close();
-        return;
-    }
-    if(!ofstream->is_open()){
-        std::cout<<"Error al abrir el archivo: "<<this->fileName<<std::endl;
-        ifstream->close();
-        return;
-    }
+    this->fstream= new std::fstream(this->fileName,std::ios::binary|std::ios::in|std::ios::out);
+
 }
 
 FileManager *FileManager::getFileManager(std::string name) {
@@ -56,6 +46,7 @@ FileManager *FileManager::getFileManager(std::string name) {
     in.read(temp,512);
     std::cout<<"Cargando Header en memoria"<<std::endl;
     FileHeader * fh = new FileHeader(temp);
+    std::cout<<"Header cargado en memoria"<<std::endl;
     in.close();
     if(fh->getFileType()==FileType::bloque){
         return new BlockFileManager(fh,name);
@@ -66,8 +57,7 @@ FileManager *FileManager::getFileManager(std::string name) {
 }
 
 void FileManager::closeFile() {
-    this->ifstream->close();
-    this->ofstream->close();
+    this->fstream->close();
 }
 
 

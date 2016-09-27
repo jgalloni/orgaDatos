@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <cstdlib>
+#include <cstring>
 #include "Block.h"
 #include "Field/IntField.h"
 #include "Field/DateField.h"

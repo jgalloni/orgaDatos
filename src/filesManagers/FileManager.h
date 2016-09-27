@@ -16,10 +16,10 @@ class FileManager {
 protected:
     FileHeader * fileHeader;
     std::string fileName;
-    std::ifstream * ifstream;
+    std::fstream * fstream;
     OcupationMap * ocupationMap;
     FreeRegOffset * freeRegOffset;
-    std::ofstream *ofstream;
+   // std::ofstream *ofstream;
 public:
     void createFile();
     virtual void openFile();
