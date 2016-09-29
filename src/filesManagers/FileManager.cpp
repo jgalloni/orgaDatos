@@ -60,4 +60,36 @@ void FileManager::closeFile() {
     this->fstream->close();
 }
 
+bool FileManager::end() {
+    return this->fstream->eof();
+}
+
+FileHeader *FileManager::cloneHeader() {
+    FileHeader* fhclone=new FileHeader(this->fileHeader);
+    return fhclone;
+}
+
+FileHeader *FileManager::cloneHeader(std::string fields) {
+    FileHeader* fhclone=new FileHeader(this->fileHeader);
+    fhclone->proyectFields(fields);
+    return fhclone;
+}
+
+const int &FileManager::getFieldPosition(std::string field) {
+    int * ret= (int *) malloc(sizeof(int));
+    *ret=this->fileHeader->getFielPossition(field);
+    return *ret;
+}
+
+FileHeader *FileManager::getHeader() {
+    return this->fileHeader;
+}
+
+void FileManager::reset() {
+    this->lastPos=0;
+}
+
+
+
+
 

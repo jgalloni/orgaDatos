@@ -4,6 +4,8 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <algorithm>
+#include <iostream>
 #include "FreeRegOffset.h"
 
 int FreeRegOffset::nextFreeReg() {
@@ -38,10 +40,12 @@ FreeRegOffset::FreeRegOffset(char *data) {
 
 void FreeRegOffset::setOcupedOffset(int offset) {
     int *tmp = (int *) malloc((size + 1) * sizeof(int));
-    memcpy(tmp, freeRegs, size);
+    memcpy(tmp, freeRegs, size*sizeof(int));
     this->freeRegs = tmp;
     this->freeRegs[size] = offset;
     this->size++;
+    std::sort(this->freeRegs,this->freeRegs+this->size);
+    std::cout<<"primer region libre: "<<this->freeRegs[0]<<std::endl;
 }
 
 void FreeRegOffset::updateOcupedOffset(int oldOff, int newOff) {
@@ -51,6 +55,7 @@ void FreeRegOffset::updateOcupedOffset(int oldOff, int newOff) {
             return;
         }
     }
+    std::sort(this->freeRegs,this->freeRegs+this->size);
 }
 
 void FreeRegOffset::deleteOcupedOffset(int offset) {
@@ -63,4 +68,5 @@ void FreeRegOffset::deleteOcupedOffset(int offset) {
     }
     this->freeRegs=tmp;
     size--;
+    std::sort(this->freeRegs,this->freeRegs+this->size);
 }

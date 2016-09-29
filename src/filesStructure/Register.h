@@ -10,6 +10,8 @@
 #include "Field/Field.h"
 #include "FileHeader.h"
 
+class FileHeader;
+
 class Register {
 private:
     Field ** fields ;
@@ -20,11 +22,15 @@ public:
     char * serialize(int *size);
 
     Register(std::string rawReg, FileHeader *fHeader);
+    Register(char * rawReg,int size, FileHeader *fHeader);
     Register(Field **, int size,int id);
 
     bool cmp(std::string rawReg);
 
     bool test(int fieldNum,std::string condition, std::string value);
+
+    void proyect(int*,int);
+    Register * join(Register r,int);
 };
 
 

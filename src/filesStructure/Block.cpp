@@ -17,7 +17,7 @@ char *Block::serialize(int size) {
     temp+=sizeof(int);
     for(int i=0;i<this->regsNum;i++){
         int regSize=0;
-        char * sReg = regs->serialize(&regSize);
+        char * sReg = regs[i].serialize(&regSize);
         total+=regSize;
         if(total>(size*512)){
             return nullptr;
@@ -41,13 +41,14 @@ Block::Block(Register *regs, int size) {
 
 Block::Block(char *sReg, FileHeader fh) {
     int oc;
+    this->regsNum=0;
     memcpy(&oc,sReg, sizeof(int));
     sReg+=sizeof(int);
     this->ocupation=oc;
     std::vector<Register> tmpreg;
     for(int i=sizeof(int);i<oc;){
         std::vector<Field *> tmpFields;
-        int id;
+        int id=0;
         memcpy(&id,sReg, sizeof(int));
         sReg+=sizeof(int);
         for(int j=0;j<fh.getNumField();j++){
@@ -82,6 +83,7 @@ Block::Block(char *sReg, FileHeader fh) {
                         sReg+=sizeof(long);
                         i+=sizeof(long);
                     }
+                    break;
                 case 'd':
                     if(fh.getSizeField()[j]=='t'){
                         char val[8];
@@ -98,6 +100,7 @@ Block::Block(char *sReg, FileHeader fh) {
                         sReg+=sizeof(char)*15;
                         i+=sizeof(char)*15;
                     }
+                    break;
                 case 's':
                     if(fh.getSizeField()[j]=='d'){
                         std::string tmp;
@@ -124,7 +127,17 @@ Block::Block(char *sReg, FileHeader fh) {
                     }
             }
         }
-        tmpreg.push_back(Register(tmpFields.data(),tmpFields.size(),id));
+        Field * * fields= (Field * *) malloc(sizeof(Field*));
+        fields[0]= (Field *) malloc(sizeof(Field)*tmpFields.size());
+        for (int i = 0; i < tmpFields.size(); ++i) {
+            fields[i]=tmpFields[i];
+        }
+        tmpreg.push_back(Register(fields,tmpFields.size(),id));
+        this->regsNum++;
+    }
+    this->regs= (Register *) malloc(sizeof(Register)*tmpreg.size());
+    for (int i = 0; i < tmpreg.size(); ++i) {
+        this->regs[i]=tmpreg[i];
     }
 }
 
@@ -132,12 +145,24 @@ int Block::getSerializedSize() {
     return this->ocupation;
 }
 
-bool Block::find(std::string rawReg) {
-    return false;
+int Block::find(std::string rawReg) {
+    return 0;
 }
 
-void Block::remove(int id) {
-
+bool Block::remove(std::string rawReg) {
+    Register* tmp= (Register *) malloc(sizeof(Register)*this->regsNum);
+    bool ret;
+    int j=0;
+    for (int i = 0; i < this->regsNum; ++i) {
+        if(!this->regs[i].cmp(rawReg)){
+             tmp[j]=this->regs[i];
+             j++;
+        } else{
+            ret=true;
+        }
+    }
+    this->regsNum=j;
+    return ret;
 }
 
 void Block::add(Register aRegister) {
@@ -146,7 +171,6 @@ void Block::add(Register aRegister) {
         tmp[i]=regs[i];
     }
     tmp[this->regsNum]=aRegister;
-    free(this->regs);
     this->regs=tmp;
     this->regsNum++;
 }
@@ -160,4 +184,29 @@ std::vector<Register> Block::find(int field, std::string condition, std::string 
        }
     }
     return ret;
+}
+
+void Block::clean() {
+    this->regs= nullptr;
+    this->ocupation=0;
+    this->regsNum=0;
+}
+
+std::vector<Register> Block::proyect(int *fieldsPos,int size) {
+    for (int i = 0; i < this->regsNum; ++i) {
+        this->regs[i].proyect(fieldsPos,size);
+    }
+    std::vector<Register> ret;
+    for (int i = 0; i < this->regsNum; ++i) {
+        ret.push_back(this->regs[i]);
+    }
+    return ret;
+}
+
+std::vector<Register> Block::getRegisters() {
+    std::vector<Register> out;
+    for (int i = 0; i < this->regsNum; ++i) {
+        out.push_back(this->regs[i]);
+    }
+    return out;
 }

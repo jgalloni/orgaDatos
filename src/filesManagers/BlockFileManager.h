@@ -16,6 +16,9 @@ public:
     std::vector<Register> find(std::string field,std::string condition, std::string value) const;
     void insert(std::vector<Register> reg) const;
     void insert(Register registro) const;
+    std::vector<Register> findNext(std::string field, std::string condition, std::string value);
+    std::vector<Register> getNextAndProyect(int *,int);
+    std::vector<Register> getNext();
 };
 
 

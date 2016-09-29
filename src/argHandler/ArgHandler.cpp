@@ -78,6 +78,6 @@ Args *ArgHandler::deleteArgFiller(int argc, const char **argv) {
 	args->setOutFile(argv[2]);
 	std::cout<<"Nombre archivo: "<<args->getOutFile()<<std::endl;
 	args->setModifiers(argv[3]);
-	std::cout<<"Registro a borrar de los registros: "<<args->getModifiers()<<std::endl;
+	std::cout<<"Registro a borrar"<<args->getModifiers()<<std::endl;
 	return args;
 }

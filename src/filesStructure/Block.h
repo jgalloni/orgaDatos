@@ -20,13 +20,19 @@ public:
 
     int getSerializedSize();
 
-    bool find(std::string rawReg);
+    int find(std::string rawReg);
 
-    void remove(int id);
+    bool remove(std::string rawReg);
 
     void add(Register aRegister);
 
     std::vector<Register> find(int field, std::string condition, std::string value);
+
+    void clean();
+
+    std::vector<Register> proyect(int*,int);
+
+    std::vector<Register> getRegisters();
 };
 
 

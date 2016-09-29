@@ -16,11 +16,12 @@ OcupationMap::OcupationMap(char *value, int size) {
         }
         value++;
     }
+    this->currentFree=-1;
 }
 
 int OcupationMap::getNextFree() {
-    for (int i = this->currentFree; i < this->size; ++i) {
-        if(map[i]==0){
+    for (int i = this->currentFree+1; i < this->size*8; ++i) {
+        if(map[i]==false){
             this->currentFree=i;
             return this->currentFree;
         }
@@ -29,7 +30,7 @@ int OcupationMap::getNextFree() {
 }
 
 char *OcupationMap::serialize() {
-    char * out= (char *) malloc(sizeof(char) * this->size / 8);
+    char * out= (char *) malloc(sizeof(char) * this->size);
     for (int i = 0; i < this->size; i+=8) {
         char c = 0;
         for (int j=0; j < 8; ++j) {
@@ -50,6 +51,7 @@ OcupationMap::OcupationMap(int size) {
             this->map[i+j]=false;
         }
     }
+    this->currentFree=-1;
 }
 
 void OcupationMap::setFullBlock(int i) {

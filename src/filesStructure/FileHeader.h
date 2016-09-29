@@ -7,6 +7,7 @@
 
 #include <string>
 #include "../argHandler/Args.h"
+#include "../filesManagers/FileManager.h"
 
 class FileHeader {
 private:
@@ -34,6 +35,7 @@ public:
 public:
     FileHeader(std::string names,std::string types,std::string size,FileType type);
     FileHeader(Args args);
+    FileHeader(FileHeader *fh);
     FileHeader(char *);
     char * Serialize();
     FileType getFileType();
@@ -45,6 +47,10 @@ public:
     void incLastId();
 
     int getFielPossition(std::string fieldName);
+
+    void proyectFields(std::string basic_string);
+
+    void merge(FileHeader *pManager);
 };
 
 

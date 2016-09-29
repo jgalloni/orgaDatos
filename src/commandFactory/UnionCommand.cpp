@@ -1,19 +1,15 @@
 //
-// Created by Jorge Galloni on 9/25/16.
+// Created by Jorge Galloni on 9/28/16.
 //
 
 #include <iostream>
-#include <vector>
-#include "SelectCommand.h"
+#include "UnionCommand.h"
 #include "../filesManagers/BlockFileManager.h"
 #include "../filesManagers/RegisterFileManager.h"
-#include "../filesStructure/Register.h"
 
-SelectCommand::SelectCommand(Args args) {
-    this->condition = args.getModifiers();
-    this->value = args.getModifiers2();
+UnionCommand::UnionCommand(Args args) {
     this->fileManager = FileManager::getFileManager(args.getInFile());
-    args.setOutType(this->fileManager->getType());
+    this->infileManager = FileManager::getFileManager(args.getModifiers());
     FileHeader * fileHeader= this->fileManager->cloneHeader();
     if(args.getOutType()==FileType::bloque) {
         this->outFileManager = new BlockFileManager(fileHeader, args.getOutFile());
@@ -23,15 +19,22 @@ SelectCommand::SelectCommand(Args args) {
     }
 }
 
-void SelectCommand::execute() const {
+void UnionCommand::execute() const {
     this->fileManager->openFile();
+    this->infileManager->openFile();
     this->outFileManager->createFile();
     this->outFileManager->openFile();
+    int id=0;
     while(this->fileManager->end()){
-        std::vector<Register> regs= this->fileManager->findNext(this->field,this->condition,this->value);
+        std::vector<Register> regs= this->fileManager->getNext();
         this->outFileManager->insert(regs);
     }
-    this->fileManager->closeFile();
+    this->infileManager->closeFile();
+    while(this->infileManager->end()){
+        std::vector<Register> regs= this->infileManager->getNext();
+        this->outFileManager->insert(regs);
+    }
+    this->infileManager->closeFile();
     this->outFileManager->closeFile();
     std::cout<<"Archivo cerrado con exito"<<std::endl;
 }

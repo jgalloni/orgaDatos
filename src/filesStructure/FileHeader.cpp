@@ -51,7 +51,7 @@ FileHeader::FileHeader(Args args) {
         //la cantidad
         this->numField++;
     }
-    this->name= (std::string *) malloc(sizeof(std::string) * 2);
+    this->name= (std::string *) malloc(sizeof(std::string) * this->numField);
     for (int k = 0; k < this->numField; ++k) {
         this->name[k]=nlist[k];
     }
@@ -189,4 +189,69 @@ int FileHeader::getFielPossition(std::string fieldName) {
             return i;
         }
     }
+}
+
+FileHeader::FileHeader(FileHeader *fh) {
+    this->blockSize=fh->blockSize;
+    this->fileType=fh->fileType;
+    this->lastId=0;//se setea en 0 para arrancar a copiar desde 0
+    this->numField=fh->numField;
+    this->name= (std::string *) malloc(sizeof(std::string) * this->numField);
+    this->sizeField= (char *) malloc(sizeof(char) * this->numField);
+    this->type= (char *) malloc(sizeof(char) * this->numField);
+    for (int i = 0; i < this->numField; ++i) {
+        this->name[i]=fh->name[i];
+        this->sizeField[i]=fh->sizeField[i];
+        this->type[i]= fh->type[i];
+    }
+}
+
+void FileHeader::proyectFields(std::string fields) {
+    std::stringstream ss(fields);
+    std::string reg;
+    std::vector<std::string> nlist;
+    int newSize=0;
+    while(std::getline(ss,reg,',')){
+        nlist.push_back(reg);
+        //la cantidad
+        newSize++;
+    }
+    std::string * newName= (std::string *) malloc(sizeof(std::string) * newSize);
+    std::string * newLenght= (std::string *) malloc(sizeof(std::string) * newSize);
+    char * newTipe= (char *) malloc(sizeof(char) * newSize);
+
+    for (int k = 0; k < newSize; ++k) {
+        newName[k]=nlist[k];
+        for (int i = 0; i < this->numField; ++i) {
+            if(newName[k]==this->name[i]){
+                newLenght[k]=this->sizeField[i];
+                newTipe[k]=this->type[i];
+            }
+        }
+    }
+    this->name=newName;
+    this->numField=newSize;
+    this->type=newTipe;
+    this->lastId=0;
+}
+
+void FileHeader::merge(FileHeader *pManager) {
+    int newSize=this->numField+pManager->numField;
+    std::string * newName= (std::string *) malloc(sizeof(std::string) * (newSize));
+    std::string * newLenght= (std::string *) malloc(sizeof(std::string) * (newSize));
+    char * newTipe= (char *) malloc(sizeof(char) * newSize);
+    for (int i = 0; i < pManager->numField; ++i) {
+        newName[i]=pManager->name[i];
+        newLenght[i]=pManager->sizeField[i];
+        newTipe[i]=pManager->type[i];
+    }
+    for (int i = 0; i < this->numField; ++i) {
+        newName[i+pManager->numField]=this->name[i];
+        newLenght[i+pManager->numField]=this->sizeField[i];
+        newTipe[i+pManager->numField]=this->type[i];
+    }
+    this->name=newName;
+    this->numField=newSize;
+    this->type=newTipe;
+    this->lastId=0;
 }
