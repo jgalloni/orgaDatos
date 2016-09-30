@@ -63,4 +63,12 @@ int Args::getBlockSize() {
 
 void Args::setBlockSize(const char * blocksize) {
     this->blockSize=std::stoi(std::string(blocksize),0);
+}
+
+const std::string &Args::getModifiers3() const {
+    return modifiers3;
+}
+
+void Args::setModifiers3(const std::string &modifiers3) {
+    Args::modifiers3 = modifiers3;
 };

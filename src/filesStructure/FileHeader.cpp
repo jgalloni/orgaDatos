@@ -185,7 +185,7 @@ void FileHeader::incLastId() {
 
 int FileHeader::getFielPossition(std::string fieldName) {
     for (int i = 0; i < this->numField; ++i) {
-        if(!this->name->compare(fieldName)){
+        if(!this->name[i].compare(fieldName)){
             return i;
         }
     }

@@ -12,6 +12,7 @@ ProyectionCommand::ProyectionCommand(Args args) {
     this->fileManager= FileManager::getFileManager(args.getInFile());
     FileHeader * fileHeader= this->fileManager->cloneHeader(args.getModifiers());
     fileHeader->proyectFields(args.getModifiers());
+    args.setOutType(this->fileManager->getType());
     if(args.getOutType()==FileType::bloque) {
         this->outFileManager = new BlockFileManager(fileHeader, args.getOutFile());
     }
@@ -32,7 +33,7 @@ void ProyectionCommand::execute() const {
         nlist.push_back(this->fileManager->getFieldPosition(reg));
         newSize++;
     }
-    while(this->fileManager->end()){
+    while(!this->fileManager->end()){
         std::vector<Register> regs= this->fileManager->getNextAndProyect(nlist.data(),newSize);
         this->outFileManager->insert(regs);
     }

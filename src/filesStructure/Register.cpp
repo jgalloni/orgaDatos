@@ -186,6 +186,10 @@ Register *Register::join(Register r,int id) {
     return new Register(tmpField,newsize,id);
 }
 
+void Register::setId(int id) {
+    this->id=id;
+}
+
 
 
 

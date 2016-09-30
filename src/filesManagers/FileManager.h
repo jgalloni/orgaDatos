@@ -53,7 +53,7 @@ public:
 
     void reset();
 
-    virtual std::vector<Register> getNext()=0;
+    virtual std::vector<Register> getNext(int *pInt)=0;
 };
 
 #endif //ORGADATOS_FILEMANAGER_H

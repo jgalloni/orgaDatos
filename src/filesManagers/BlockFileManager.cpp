@@ -130,7 +130,7 @@ std::vector<Register> BlockFileManager::findNext(std::string field, std::string 
     }
     char * tmp= (char *) malloc(512 * this->fileHeader->getBlockSize() * sizeof(char));
     bool cont=true;
-    while (this->fstream->eof()&&cont){
+    while (!this->fstream->eof() &&cont){
         this->fstream->read(tmp,512 * this->fileHeader->getBlockSize());
         this->lastPos+=512 * this->fileHeader->getBlockSize();
         Block bk(tmp,*this->fileHeader);
@@ -154,13 +154,13 @@ std::vector<Register> BlockFileManager::getNextAndProyect(int* fieldPos,int size
     this->lastPos+=512 * this->fileHeader->getBlockSize();
     Block bk(tmp,*this->fileHeader);
     res=bk.proyect(fieldPos,size);
-    for (int i = 0; i < 512 * this->fileHeader->getBlockSize(); ++i) {
-        free(&(tmp[i]));
-    }
+//    for (int i = 0; i < 512 * this->fileHeader->getBlockSize(); ++i) {
+//        free(&(tmp[i]));
+//    }
     return res;
 }
 
-std::vector<Register> BlockFileManager::getNext() {
+std::vector<Register> BlockFileManager::getNext(int *pInt) {
     std::vector<Register> res;
     if(this->lastPos==0) {
         this->lastPos= 512 + (512 * this->fileHeader->getBlockSize());

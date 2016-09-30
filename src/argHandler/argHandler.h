@@ -13,4 +13,10 @@ private:
 	static Args * insertArgFiller(int argc,const char *argv[]);
 
     static Args *deleteArgFiller(int argc, const char **argv);
+
+    static Args *selectArgFiller(int argc, const char **argv);
+
+    static Args *proyectArgFiller(int argc, const char **argv);
+
+    static Args *unionArgFiller(int argc, const char **argv);
 };

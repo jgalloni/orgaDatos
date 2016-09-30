@@ -30,6 +30,13 @@ private:
 	Methods method;
 	std::string  modifiers;
 	std::string modifiers2;
+	std::string modifiers3;
+public:
+	const std::string &getModifiers3() const;
+
+	void setModifiers3(const std::string &modifiers3);
+
+private:
 	FileType inType;
 	FileType outType;
 	int blockSize;

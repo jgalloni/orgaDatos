@@ -156,7 +156,7 @@ std::vector<Register> RegisterFileManager::findNext(std::string field, std::stri
     }
     int fieldPos = this->fileHeader->getFielPossition(field);
     bool cont=true;
-    while (fstream->eof() && cont) {
+    while (!fstream->eof() && cont) {
         int size=0;
         this->fstream->read((char *) &size, sizeof(int));
         if(size<0){//saltea uno vacio
@@ -168,7 +168,7 @@ std::vector<Register> RegisterFileManager::findNext(std::string field, std::stri
         }
         char * tmp= (char *) malloc(size * sizeof(char));
         this->fstream->read(tmp,size);
-        Register reg(tmp,this->fileHeader);
+        Register reg(tmp,size,this->fileHeader);
         if(reg.test(fieldPos,condition,value)&&size>0){
             out.push_back(reg);
             std::cout<<"Registro encontrado"<<std::endl;
@@ -185,7 +185,7 @@ std::vector<Register> RegisterFileManager::getNextAndProyect(int * fiels, int si
         this->fstream->seekg(1024 * sizeof(char));
         this->lastPos=1024 * sizeof(char);
     }
-    while (fstream->eof()) {
+    while (!fstream->eof()) {
         int size=0;
         this->fstream->read((char *) &size, sizeof(int));
         if(size<0){//saltea uno vacio
@@ -197,7 +197,7 @@ std::vector<Register> RegisterFileManager::getNextAndProyect(int * fiels, int si
         }
         char * tmp= (char *) malloc(size * sizeof(char));
         this->fstream->read(tmp,size);
-        Register reg(tmp,this->fileHeader);
+        Register reg(tmp,size,this->fileHeader);
         if(size>0){
             reg.proyect(fiels,sizef);
             out.push_back(reg);
@@ -207,15 +207,16 @@ std::vector<Register> RegisterFileManager::getNextAndProyect(int * fiels, int si
     return out;
 }
 
-std::vector<Register> RegisterFileManager::getNext() {
+std::vector<Register> RegisterFileManager::getNext(int *pInt) {
     std::vector<Register> out;
     if(this->lastPos==0){
         this->fstream->seekg(1024 * sizeof(char));
         this->lastPos=1024 * sizeof(char);
     }
-    while (fstream->eof()) {
+    while (!fstream->eof()) {
         int size=0;
         this->fstream->read((char *) &size, sizeof(int));
+        if(fstream->eof()) break;
         if(size<0){//saltea uno vacio
             lastPos += -size + sizeof(int);
             this->fstream->seekg(lastPos);
@@ -225,7 +226,9 @@ std::vector<Register> RegisterFileManager::getNext() {
         }
         char * tmp= (char *) malloc(size * sizeof(char));
         this->fstream->read(tmp,size);
-        Register reg(tmp,this->fileHeader);
+        Register reg(tmp,size,this->fileHeader);
+        reg.setId(*pInt);
+        (*pInt)++;
         if(size>0){
             out.push_back(reg);
             return out;

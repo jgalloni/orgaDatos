@@ -31,6 +31,7 @@ public:
 
     void proyect(int*,int);
     Register * join(Register r,int);
+    void setId(int);
 };
 
 

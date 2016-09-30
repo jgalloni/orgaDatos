@@ -10,8 +10,9 @@
 #include "../filesStructure/Register.h"
 
 SelectCommand::SelectCommand(Args args) {
-    this->condition = args.getModifiers();
-    this->value = args.getModifiers2();
+    this->condition = args.getModifiers2();
+    this->value = args.getModifiers3();
+    this->field = args.getModifiers();
     this->fileManager = FileManager::getFileManager(args.getInFile());
     args.setOutType(this->fileManager->getType());
     FileHeader * fileHeader= this->fileManager->cloneHeader();
@@ -27,7 +28,7 @@ void SelectCommand::execute() const {
     this->fileManager->openFile();
     this->outFileManager->createFile();
     this->outFileManager->openFile();
-    while(this->fileManager->end()){
+    while(!this->fileManager->end()){
         std::vector<Register> regs= this->fileManager->findNext(this->field,this->condition,this->value);
         this->outFileManager->insert(regs);
     }

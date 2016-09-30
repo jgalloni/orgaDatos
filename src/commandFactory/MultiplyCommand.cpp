@@ -27,9 +27,9 @@ void MultiplyCommand::execute() const {
     this->outFileManager->openFile();
     int id=0;
     while(this->fileManager->end()){
-        std::vector<Register> regs= this->fileManager->getNext();
+        std::vector<Register> regs= this->fileManager->getNext(nullptr);
         while(this->infileManager->end()) {
-            std::vector<Register> regs2= this->infileManager->getNext();
+            std::vector<Register> regs2= this->infileManager->getNext(nullptr);
             std::vector<Register> regsjoined=this->multiply(regs,regs2,&id);
             this->outFileManager->insert(regsjoined);
         }

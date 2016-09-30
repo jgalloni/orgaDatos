@@ -18,7 +18,7 @@ public:
     void insert(Register registro) const;
     std::vector<Register> findNext(std::string field, std::string condition, std::string value);
     std::vector<Register> getNextAndProyect(int *,int);
-    std::vector<Register> getNext();
+    std::vector<Register> getNext(int *pInt);
 };
 
 

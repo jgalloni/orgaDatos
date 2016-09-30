@@ -13,7 +13,15 @@ Args * ArgHandler::parseArgs(int argc,const char *argv[]){
 		return ArgHandler::insertArgFiller(argc,argv);
 	} else if(!command.compare("borrar")){
 		return ArgHandler::deleteArgFiller(argc,argv);
-	}
+	} else if(!command.compare("seleccionar")){
+        return ArgHandler::selectArgFiller(argc,argv);
+    } else if(!command.compare("unir")){
+        return ArgHandler::unionArgFiller(argc,argv);
+//    }else if(!command.compare("producto")){
+//        return ArgHandler::multiplyArgFiller(argc,argv);
+    }else if(!command.compare("proyectar")){
+        return ArgHandler::proyectArgFiller(argc,argv);
+    }
 
 }
 
@@ -79,5 +87,60 @@ Args *ArgHandler::deleteArgFiller(int argc, const char **argv) {
 	std::cout<<"Nombre archivo: "<<args->getOutFile()<<std::endl;
 	args->setModifiers(argv[3]);
 	std::cout<<"Registro a borrar"<<args->getModifiers()<<std::endl;
+	return args;
+}
+
+Args *ArgHandler::selectArgFiller(int argc, const char **argv) {
+    Args * args= new Args();
+    if(argc!=7){
+        std::cout<<"Cantidad de parametros para insertar archivo incorrecta, consulte el manual de la app"<<std::endl;
+        throw std::exception();
+    }
+    args->setMethod(Methods::select);
+    std::cout<<"Metodo: Seleccionar"<<std::endl;
+    args->setInFile(argv[2]);
+    std::cout<<"Nombre archivo de entrada: "<<args->getInFile()<<std::endl;
+    args->setOutFile(argv[3]);
+    std::cout<<"Nombre archivo de salida: "<<args->getOutFile()<<std::endl;
+    args->setModifiers(argv[4]);
+	std::cout<<"campo: "<<args->getModifiers()<<std::endl;
+	args->setModifiers2(argv[5]);
+    std::cout<<"condicion: "<<args->getModifiers2()<<std::endl;
+	args->setModifiers3(argv[6]);
+    std::cout<<"valor: "<<args->getModifiers3()<<std::endl;
+    return args;
+}
+
+Args *ArgHandler::proyectArgFiller(int argc, const char **argv) {
+	Args * args= new Args();
+	if(argc!=5){
+		std::cout<<"Cantidad de parametros para insertar archivo incorrecta, consulte el manual de la app"<<std::endl;
+		throw std::exception();
+	}
+	args->setMethod(Methods::proy);
+	std::cout<<"Metodo: Proyectar"<<std::endl;
+	args->setInFile(argv[2]);
+	std::cout<<"Nombre archivo de entrada: "<<args->getInFile()<<std::endl;
+	args->setOutFile(argv[3]);
+	std::cout<<"Nombre archivo de salida: "<<args->getOutFile()<<std::endl;
+	args->setModifiers(argv[4]);
+	std::cout<<"campos: "<<args->getModifiers()<<std::endl;
+	return args;
+}
+
+Args *ArgHandler::unionArgFiller(int argc, const char **argv) {
+	Args * args= new Args();
+	if(argc!=5){
+		std::cout<<"Cantidad de parametros para insertar archivo incorrecta, consulte el manual de la app"<<std::endl;
+		throw std::exception();
+	}
+	args->setMethod(Methods::uni);
+	std::cout<<"Metodo: Proyectar"<<std::endl;
+	args->setInFile(argv[2]);
+	std::cout<<"Nombre archivo de entrada1: "<<args->getInFile()<<std::endl;
+	args->setModifiers(argv[3]);
+	std::cout<<"Nombre archivo de entrada2: "<<args->getModifiers()<<std::endl;
+	args->setOutFile(argv[4]);
+	std::cout<<"Nombre archivo de salida: "<<args->getOutFile()<<std::endl;
 	return args;
 }
