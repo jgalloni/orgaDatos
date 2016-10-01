@@ -190,6 +190,19 @@ void Register::setId(int id) {
     this->id=id;
 }
 
+std::string Register::toCSV() {
+    std::stringstream ss;
+    std::string out="";
+    ss<<this->id;
+    ss<<',';
+    for (int i = 0; i < this->fieldsNumber; i++) {
+        ss<<this->fields[i]->toString();
+        ss<<',';
+    }
+    out=ss.str();
+    return out.substr(0,out.size()-1);
+}
+
 
 
 

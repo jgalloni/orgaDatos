@@ -210,3 +210,10 @@ std::vector<Register> Block::getRegisters() {
     }
     return out;
 }
+
+void Block::resetId(int *pInt) {
+    for (int i = 0; i < this->regsNum; ++i) {
+        this->regs[i].setId(*pInt);
+        pInt++;
+    }
+}

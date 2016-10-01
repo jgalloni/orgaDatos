@@ -25,6 +25,7 @@ public:
     std::vector<Register> findNext(std::string field, std::string condition, std::string value);
     std::vector<Register> getNextAndProyect(int *,int);
     std::vector<Register> getNext(int *pInt);
+    std::vector<Register> getNext();
 };
 
 

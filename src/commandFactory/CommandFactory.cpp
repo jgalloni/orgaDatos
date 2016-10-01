@@ -9,6 +9,8 @@
 #include "SelectCommand.h"
 #include "ProyectionCommand.h"
 #include "UnionCommand.h"
+#include "MultiplyCommand.h"
+#include "CSVCommand.h"
 
 Command * CommandFactory::getCommand(Args args) {
     if(args.getMethod()==Methods::create) {
@@ -23,6 +25,10 @@ Command * CommandFactory::getCommand(Args args) {
         return new ProyectionCommand(args);
     } else if(args.getMethod()==Methods::uni) {
         return new UnionCommand(args);
+    } else if(args.getMethod()==Methods::prodCart) {
+        return new MultiplyCommand(args);
+    }else if(args.getMethod()==Methods::csv) {
+        return new CSVCommand(args);
     }
     throw std::exception();
 }

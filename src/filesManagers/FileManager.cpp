@@ -87,7 +87,10 @@ FileHeader *FileManager::getHeader() {
 
 void FileManager::reset() {
     this->lastPos=0;
+    this->fstream->seekp(0);
+    this->fstream->clear();
 }
+
 
 
 

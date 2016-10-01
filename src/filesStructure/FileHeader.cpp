@@ -238,20 +238,31 @@ void FileHeader::proyectFields(std::string fields) {
 void FileHeader::merge(FileHeader *pManager) {
     int newSize=this->numField+pManager->numField;
     std::string * newName= (std::string *) malloc(sizeof(std::string) * (newSize));
-    std::string * newLenght= (std::string *) malloc(sizeof(std::string) * (newSize));
+    char * newLenght= (char *) malloc(sizeof(char) * (newSize));
     char * newTipe= (char *) malloc(sizeof(char) * newSize);
-    for (int i = 0; i < pManager->numField; ++i) {
-        newName[i]=pManager->name[i];
-        newLenght[i]=pManager->sizeField[i];
-        newTipe[i]=pManager->type[i];
-    }
     for (int i = 0; i < this->numField; ++i) {
-        newName[i+pManager->numField]=this->name[i];
-        newLenght[i+pManager->numField]=this->sizeField[i];
-        newTipe[i+pManager->numField]=this->type[i];
+        newName[i]=this->name[i];
+        newLenght[i]=this->sizeField[i];
+        newTipe[i]=this->type[i];
+    }
+    for (int i = 0; i < pManager->numField; ++i) {
+        newName[i+this->numField]=pManager->name[i];
+        newLenght[i+this->numField]=pManager->sizeField[i];
+        newTipe[i+this->numField]=pManager->type[i];
     }
     this->name=newName;
     this->numField=newSize;
     this->type=newTipe;
+    this->sizeField=newLenght;
     this->lastId=0;
+}
+
+std::string FileHeader::toCSV() {
+    std::stringstream ss;
+    ss<<"id,";
+    for (int i = 0; i < this->numField; ++i) {
+        ss<<this->name[i]<<'-'<<this->type[i]<<'|'<<this->sizeField[i]<<",";
+    }
+    std::string out=ss.str();
+    return out.substr(0,out.size()-1);
 }

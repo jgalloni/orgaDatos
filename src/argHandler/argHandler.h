@@ -19,4 +19,8 @@ private:
     static Args *proyectArgFiller(int argc, const char **argv);
 
     static Args *unionArgFiller(int argc, const char **argv);
+
+    static Args *multiplyArgFiller(int argc, const char **argv);
+
+    static Args *csvArgFiller(int argc, const char **argv);
 };

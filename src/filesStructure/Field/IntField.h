@@ -29,6 +29,7 @@ public:
     bool lower (std::string) const;
     bool grtOrEqu(std::string) const;
     bool loweOrEqu(std::string) const;
+    std::string toString();
 };
 
 

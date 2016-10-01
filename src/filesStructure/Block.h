@@ -33,6 +33,8 @@ public:
     std::vector<Register> proyect(int*,int);
 
     std::vector<Register> getRegisters();
+
+    void resetId(int *pInt);
 };
 
 

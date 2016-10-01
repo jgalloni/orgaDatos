@@ -170,6 +170,20 @@ std::vector<Register> BlockFileManager::getNext(int *pInt) {
     this->fstream->read(tmp,512 * this->fileHeader->getBlockSize());
     this->lastPos+=512 * this->fileHeader->getBlockSize();
     Block bk(tmp,*this->fileHeader);
+    bk.resetId(pInt);
+    return bk.getRegisters();
+}
+
+std::vector<Register> BlockFileManager::getNext() {
+    std::vector<Register> res;
+    if(this->lastPos==0) {
+        this->lastPos= 512 + (512 * this->fileHeader->getBlockSize());
+        this->fstream->seekg(this->lastPos);
+    }
+    char * tmp= (char *) malloc(512 * this->fileHeader->getBlockSize() * sizeof(char));
+    this->fstream->read(tmp,512 * this->fileHeader->getBlockSize());
+    this->lastPos+=512 * this->fileHeader->getBlockSize();
+    Block bk(tmp,*this->fileHeader);
     return bk.getRegisters();
 }
 

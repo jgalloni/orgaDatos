@@ -111,6 +111,7 @@ std::vector<Register> RegisterFileManager::find(std::string field,std::string co
 void RegisterFileManager::insert(std::vector<Register> reg) const {
     for (int i = 0; i < reg.size(); ++i) {
         this->insert(reg.at(i));
+        std::cout<<reg[i].toCSV()<<std::endl;
     }
 }
 
@@ -229,6 +230,34 @@ std::vector<Register> RegisterFileManager::getNext(int *pInt) {
         Register reg(tmp,size,this->fileHeader);
         reg.setId(*pInt);
         (*pInt)++;
+        if(size>0){
+            out.push_back(reg);
+            return out;
+        }
+    }
+    return out;
+}
+
+std::vector<Register> RegisterFileManager::getNext() {
+    std::vector<Register> out;
+    if(this->lastPos==0){
+        this->fstream->seekg(1024 * sizeof(char));
+        this->lastPos=1024 * sizeof(char);
+    }
+    while (!fstream->eof()) {
+        int size=0;
+        this->fstream->read((char *) &size, sizeof(int));
+        if(fstream->eof()) break;
+        if(size<0){//saltea uno vacio
+            lastPos += -size + sizeof(int);
+            this->fstream->seekg(lastPos);
+            continue;
+        }else {
+            lastPos += size + sizeof(int);
+        }
+        char * tmp= (char *) malloc(size * sizeof(char));
+        this->fstream->read(tmp,size);
+        Register reg(tmp,size,this->fileHeader);
         if(size>0){
             out.push_back(reg);
             return out;

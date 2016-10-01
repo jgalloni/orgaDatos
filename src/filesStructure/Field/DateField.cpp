@@ -208,3 +208,12 @@ bool DateField::loweOrEqu(const std::string value) const{
     }
     return false;
 }
+
+std::string DateField::toString() {
+    std::stringstream ss;
+    ss<<this->anio<<'/'<<this->mes<<'/'<<this->dia;
+    if(this->type=='t'){
+        ss<<'/'<<this->horas<<this->minutos<<this->segundos;
+    }
+    return ss.str();
+}

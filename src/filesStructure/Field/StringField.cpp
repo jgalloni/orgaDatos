@@ -55,3 +55,7 @@ bool StringField::grtOrEqu(std::string) const {
 bool StringField::loweOrEqu(std::string) const {
     return true;
 }
+
+std::string StringField::toString() {
+    return this->value;
+}

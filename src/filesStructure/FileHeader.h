@@ -51,6 +51,8 @@ public:
     void proyectFields(std::string basic_string);
 
     void merge(FileHeader *pManager);
+
+    std::string toCSV();
 };
 
 

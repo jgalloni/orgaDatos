@@ -18,6 +18,7 @@ public:
     virtual bool lower (std::string) const=0;
     virtual bool grtOrEqu(std::string) const=0;
     virtual bool loweOrEqu(std::string) const=0;
+    virtual std::string toString()=0;
 };
 
 

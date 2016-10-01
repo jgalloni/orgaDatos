@@ -17,11 +17,13 @@ Args * ArgHandler::parseArgs(int argc,const char *argv[]){
         return ArgHandler::selectArgFiller(argc,argv);
     } else if(!command.compare("unir")){
         return ArgHandler::unionArgFiller(argc,argv);
-//    }else if(!command.compare("producto")){
-//        return ArgHandler::multiplyArgFiller(argc,argv);
+    }else if(!command.compare("producto")){
+        return ArgHandler::multiplyArgFiller(argc,argv);
     }else if(!command.compare("proyectar")){
         return ArgHandler::proyectArgFiller(argc,argv);
-    }
+    }else if(!command.compare("csv")){
+		return ArgHandler::csvArgFiller(argc,argv);
+	}
 
 }
 
@@ -141,6 +143,38 @@ Args *ArgHandler::unionArgFiller(int argc, const char **argv) {
 	args->setModifiers(argv[3]);
 	std::cout<<"Nombre archivo de entrada2: "<<args->getModifiers()<<std::endl;
 	args->setOutFile(argv[4]);
+	std::cout<<"Nombre archivo de salida: "<<args->getOutFile()<<std::endl;
+	return args;
+}
+
+Args *ArgHandler::multiplyArgFiller(int argc, const char **argv) {
+    Args * args= new Args();
+    if(argc!=5){
+        std::cout<<"Cantidad de parametros para insertar archivo incorrecta, consulte el manual de la app"<<std::endl;
+        throw std::exception();
+    }
+    args->setMethod(Methods::prodCart);
+    std::cout<<"Metodo: Producto cartesiano"<<std::endl;
+    args->setInFile(argv[2]);
+    std::cout<<"Nombre archivo de entrada1: "<<args->getInFile()<<std::endl;
+    args->setModifiers(argv[3]);
+    std::cout<<"Nombre archivo de entrada2: "<<args->getModifiers()<<std::endl;
+    args->setOutFile(argv[4]);
+    std::cout<<"Nombre archivo de salida: "<<args->getOutFile()<<std::endl;
+    return args;
+}
+
+Args *ArgHandler::csvArgFiller(int argc, const char **argv) {
+	Args * args= new Args();
+	if(argc!=4){
+		std::cout<<"Cantidad de parametros para insertar archivo incorrecta, consulte el manual de la app"<<std::endl;
+		throw std::exception();
+	}
+	args->setMethod(Methods::csv);
+	std::cout<<"Metodo: Producto cartesiano"<<std::endl;
+	args->setInFile(argv[2]);
+	std::cout<<"Nombre archivo de entrada: "<<args->getInFile()<<std::endl;
+	args->setOutFile(argv[3]);
 	std::cout<<"Nombre archivo de salida: "<<args->getOutFile()<<std::endl;
 	return args;
 }

@@ -4,6 +4,7 @@
 
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
 #include "IntField.h"
 
 IntField::IntField(std::string value, int size) {
@@ -136,4 +137,22 @@ bool IntField::loweOrEqu( std::string value) const{
         return this->value8 <= std::stoi(value);
     }
     return false;
+}
+
+std::string IntField::toString() {
+    std::stringstream ss;
+    if (this->size == 1) {
+        int i=this->value1;
+        ss << i;
+        return ss.str();
+    } else if (this->size == 2) {
+        ss << this->value2;
+        return ss.str();
+    } else if (this->size == 4) {
+        ss << this->value4;
+        return ss.str();
+    } else if (this->size == 8) {
+        ss << this->value8;
+        return ss.str();
+    }
 }

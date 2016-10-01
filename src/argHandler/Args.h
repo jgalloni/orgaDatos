@@ -15,7 +15,8 @@ enum class Methods {
     div,
     grup,
 	insert,
-	deleteReg
+	deleteReg,
+	csv
 };
 enum class FileType{
     bloque=0,
